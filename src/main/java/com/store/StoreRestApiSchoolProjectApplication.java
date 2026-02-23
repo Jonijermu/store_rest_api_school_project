@@ -8,7 +8,7 @@ public class StoreRestApiSchoolProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StoreRestApiSchoolProjectApplication.class, args);
-        System.out.print("Running on port http://localhost:8080/api/");
+        System.out.print("Running on port http://localhost:8080/api");
 	}
 
 }
