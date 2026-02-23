@@ -20,7 +20,7 @@ public class Contact {
     private String email;
 
     @Column(name = "reference", nullable = false, length = 32)
-    private String reference;
+    private char reference;
 
 
 }

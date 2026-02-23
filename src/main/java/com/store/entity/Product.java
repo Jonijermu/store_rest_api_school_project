@@ -26,7 +26,7 @@ public class Product {
     private String description;
 
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
-    private double price;
+    private BigDecimal price;
 
     @ColumnDefault("0")
     @Column(name = "stock_quantity", nullable = false)
