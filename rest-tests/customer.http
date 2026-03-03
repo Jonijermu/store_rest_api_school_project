@@ -1,0 +1,17 @@
+### GET Customer by id
+GET http://localhost:8080/api/customers/10
+
+
+### Create a new customer
+POST http://localhost:8080/api/customers
+Content-Type: application/json
+
+{
+  "type": "PRIVATE",
+  "firstName": "joni",
+  "lastName": "Heik",
+  "email": "joni@prööt.fi",
+  "phone": "123456789",
+  "companyName": "Nordea",
+  "billingEmail": "nordea@hotmail.fi"
+}

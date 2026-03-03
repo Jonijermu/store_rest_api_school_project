@@ -2,19 +2,22 @@ package com.store.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
+@SuperBuilder
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "customers")
-public class Customer {
+public abstract class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +33,8 @@ public class Customer {
     private String email;
 
     private String phone;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders = new ArrayList<>();
 
 }

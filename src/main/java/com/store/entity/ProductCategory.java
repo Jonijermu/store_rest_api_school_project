@@ -26,8 +26,8 @@ public class ProductCategory {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products = new ArrayList<>();
+    @ManyToMany(mappedBy = "categories")
+    private List<Product> products = new ArrayList<Product>();
 
 
 }

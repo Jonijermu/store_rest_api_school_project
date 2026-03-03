@@ -39,7 +39,7 @@ public class Order {
     @JoinColumn(name = "shipping_address_id")
     private CustomerAddress shippingAddress;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 }
 

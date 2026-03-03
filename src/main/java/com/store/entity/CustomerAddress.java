@@ -20,8 +20,7 @@ public class CustomerAddress {
     private int id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @OneToOne(optional = false)
     private Customer customer;
 
     @Column(name = "street_address", nullable = false)

@@ -1,31 +1,107 @@
 package com.store.service;
 
+import com.store.dto.customer.CompanyCustomerDTO;
+import com.store.dto.customer.CreateCustomerRequest;
+import com.store.dto.customer.CustomerDTO;
+import com.store.dto.customer.PrivateCustomerDTO;
+import com.store.entity.CompanyCustomer;
 import com.store.entity.Customer;
+import com.store.entity.PrivateCustomer;
+import com.store.mapper.CustomerMapper;
 import com.store.repository.CustomerRepository;
+import com.store.utils.enums.CustomerType;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
-    public CustomerService(CustomerRepository customerRepository) {
+
+    public CustomerService(
+            CustomerRepository customerRepository,
+            CustomerMapper customerMapper
+    ) {
         this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
     }
 
-    public Customer findCustomerById(int customerId) {
-        return customerRepository.findById(customerId).orElse(null);
+    public CustomerDTO findCustomerById(int customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow();
+
+        if (customer instanceof PrivateCustomer privateCustomer) {
+            return customerMapper.toPrivateCustomerDto(privateCustomer);
+        }
+
+        if (customer instanceof  CompanyCustomer companyCustomer) {
+            return customerMapper.toCompanyCustomerDto(companyCustomer);
+        }
+        throw new IllegalStateException("Could not find customer");
     }
 
-    public void addCustomer(Customer customer) {
-        customerRepository.save(customer);
+
+    public CustomerDTO saveCustomer(CreateCustomerRequest request) {
+
+        if (request.getType().equals(CustomerType.PRIVATE)) {
+            PrivateCustomer customer = new PrivateCustomer();
+            setCommonFields(customer, request);
+            return customerMapper.toPrivateCustomerDto(
+                    customerRepository.save(customer)
+            );
+        }
+
+        if (request.getType().equals(CustomerType.COMPANY)) {
+            CompanyCustomer customer = new CompanyCustomer();
+            setCommonFields(customer, request);
+            customer.setCompanyName(request.getCompanyName());
+            customer.setBillingEmail(request.getBillingEmail()
+            );
+            return customerMapper.toCompanyCustomerDto(
+                    customerRepository.save(customer)
+            );
+        }
+        throw new IllegalStateException("Creating customer failed");
+
     }
 
     public void deleteCustomerById(int customerId) {
         customerRepository.deleteById(customerId);
     }
 
-    public void changeCustomerInfo(Customer customer) {
-        customerRepository.save(customer);
+    public CustomerDTO updateCustomerInfo(
+            int customerId,
+            CreateCustomerRequest request
+    ) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer Not Found"));
+
+        setCommonFields(customer, request);
+
+        if (customer instanceof PrivateCustomer privateCustomer) {
+            return customerMapper.toPrivateCustomerDto(
+                    customerRepository.save(privateCustomer)
+            );
+        }
+
+        if (customer instanceof CompanyCustomer companyCustomer) {
+            companyCustomer.setCompanyName(request.getCompanyName());
+            companyCustomer.setBillingEmail(request.getBillingEmail());
+            return  customerMapper.toCompanyCustomerDto(
+                    customerRepository.save(companyCustomer)
+            );
+        }
+
+        throw new RuntimeException("Changing customer info failed");
+
+    }
+
+
+    private void setCommonFields(Customer customer, CreateCustomerRequest request) {
+        customer.setFirstName(request.getFirstName());
+        customer.setLastName(request.getLastName());
+        customer.setEmail(request.getEmail());
+        customer.setPhone(request.getPhone());
     }
 }
