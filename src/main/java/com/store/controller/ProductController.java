@@ -2,11 +2,12 @@ package com.store.controller;
 
 import com.store.dto.product.ProductDTO;
 import com.store.service.ProductService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/products")
@@ -24,5 +25,21 @@ public class ProductController {
     ) {
         ProductDTO productDTO = productService.getProductById(productId);
         return ResponseEntity.ok(productDTO);
+    }
+
+    @GetMapping("/top/{productNumber}")
+    public ResponseEntity<List<ProductDTO>> getTopProducts(
+            @PathVariable Integer productNumber
+    ) {
+        List<ProductDTO> products = productService.getTopProducts(productNumber);
+        return ResponseEntity.ok(products);
+    }
+
+    @PatchMapping()
+    public ResponseEntity<String> patchProductPrices(
+            @RequestBody double percentageIncrease
+    ) {
+        productService.increaseProductPrices(percentageIncrease);
+        return ResponseEntity.ok("Product prices increase" + percentageIncrease);
     }
 }

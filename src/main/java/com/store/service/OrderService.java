@@ -1,6 +1,5 @@
 package com.store.service;
 
-import com.store.dto.customer.CompanyCustomerDTO;
 import com.store.dto.order.CreateOrderRequest;
 import com.store.dto.order.CustomerOrdersDTO;
 import com.store.dto.order.OrderDTO;
@@ -10,7 +9,7 @@ import com.store.mapper.OrderMapper;
 import com.store.repository.CustomerAddressRepository;
 import com.store.repository.CustomerRepository;
 import com.store.repository.OrderRepository;
-import com.store.repository.ProductRepository;
+import com.store.repository.productRepository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
