@@ -1,5 +1,6 @@
 package com.store.service;
 
+import com.store.dto.customer.CompanyCustomerDTO;
 import com.store.dto.order.CreateOrderRequest;
 import com.store.dto.order.CustomerOrdersDTO;
 import com.store.dto.order.OrderDTO;
@@ -36,8 +37,18 @@ public class OrderService {
     public CustomerOrdersDTO getAllCustomerOrders(int customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow();
-        List<Order> orders = orderRepository.findOrderByCustomerId(customerId);
-        return ordersMapper.toDto(customer, orders);
+
+        if (customer instanceof PrivateCustomer privateCustomer) {
+            List<Order> orders = orderRepository.findOrderByCustomerId(customerId);
+            return ordersMapper.toPrivateCustomerOrderDto(privateCustomer, orders);
+        }
+
+        if (customer instanceof CompanyCustomer companyCustomer) {
+            List<Order> orders = orderRepository.findOrderByCustomerId(customerId);
+            return ordersMapper.toCompanyCustomerOrderDto(companyCustomer, orders);
+        }
+
+        throw new RuntimeException("Failed to load customer orders");
     }
 
     public void getOrderProductsByOrderId() {
@@ -69,7 +80,7 @@ public class OrderService {
 
         order.setOrderItems(orderItems);
         orderRepository.save(order);
-        return ordersMapper.toDto(order);
+        return ordersMapper.toOrderDto(order);
     }
 
     private OrderItem createOrderItems(

@@ -1,9 +1,15 @@
 package com.store.mapper;
 
+import com.store.dto.customer.CompanyCustomerDTO;
+import com.store.dto.customer.PrivateCustomerDTO;
+import com.store.dto.order.CompanyCustomerOrdersDTO;
 import com.store.dto.order.CustomerOrdersDTO;
 import com.store.dto.order.OrderDTO;
+import com.store.dto.order.PrivateCustomerOrdersDTO;
+import com.store.entity.CompanyCustomer;
 import com.store.entity.Customer;
 import com.store.entity.Order;
+import com.store.entity.PrivateCustomer;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,20 +28,43 @@ public class OrderMapper {
     }
 
 
-    public CustomerOrdersDTO toDto(Customer customer, List<Order> orders) {
-        return CustomerOrdersDTO.builder()
+    public PrivateCustomerOrdersDTO toPrivateCustomerOrderDto(PrivateCustomer customer, List<Order> orders) {
+        PrivateCustomerDTO privateCustomerDto = PrivateCustomerDTO.builder()
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
+                .build();
+
+        return PrivateCustomerOrdersDTO.builder()
+                .privateCustomerDTO(privateCustomerDto)
                 .orders(orders.stream()
-                        .map(this::toDto)
+                        .map(this::toOrderDto)
                         .collect(Collectors.toList())
                 )
                 .build();
     }
 
-    public OrderDTO toDto(Order order) {
+    public CompanyCustomerOrdersDTO toCompanyCustomerOrderDto(CompanyCustomer customer, List<Order> orders) {
+        CompanyCustomerDTO companyCustomerDTO = CompanyCustomerDTO.builder()
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .email(customer.getEmail())
+                .phone(customer.getPhone())
+                .company(customer.getCompanyName())
+                .billingEmail(customer.getEmail())
+                .build();
+
+        return CompanyCustomerOrdersDTO.builder()
+                .companyCustomerDTO(companyCustomerDTO)
+                .orders(orders.stream()
+                        .map(this::toOrderDto)
+                        .collect(Collectors.toList())
+                )
+                .build();
+    }
+
+    public OrderDTO toOrderDto(Order order) {
         return OrderDTO.builder()
                 .id(order.getId())
                 .orderDate(order.getOrderDate())
