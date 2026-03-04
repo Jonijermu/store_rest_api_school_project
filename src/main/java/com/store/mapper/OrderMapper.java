@@ -30,11 +30,13 @@ public class OrderMapper {
 
     public PrivateCustomerOrdersDTO toPrivateCustomerOrderDto(PrivateCustomer customer, List<Order> orders) {
         PrivateCustomerDTO privateCustomerDto = PrivateCustomerDTO.builder()
+                .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
                 .build();
+
 
         return PrivateCustomerOrdersDTO.builder()
                 .privateCustomerDTO(privateCustomerDto)
@@ -47,6 +49,7 @@ public class OrderMapper {
 
     public CompanyCustomerOrdersDTO toCompanyCustomerOrderDto(CompanyCustomer customer, List<Order> orders) {
         CompanyCustomerDTO companyCustomerDTO = CompanyCustomerDTO.builder()
+                .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())

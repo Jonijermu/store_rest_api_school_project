@@ -17,7 +17,5 @@ public class CompanyCustomer extends Customer {
     @Column(name = "billing_email", nullable = false)
     private String billingEmail;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private CustomerAddress customeraddresses;
+
 }

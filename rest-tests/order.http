@@ -1,0 +1,16 @@
+### get orders by customer id
+GET http://localhost:8080/api/orders/1
+
+
+### create an order
+POST localhost:8080/api/orders
+Content-Type: application/json
+
+{
+  "customerId": 100001,
+  "products": [
+    {"productId": 2, "quantity": 6},
+    {"productId": 1, "quantity": 2}
+  ]
+
+}

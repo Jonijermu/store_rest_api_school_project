@@ -23,9 +23,9 @@ public class Order {
 
     @Column(name = "order_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date orderDate;
+    private Date orderDate = new Date();
 
-    @Column(name = "delivery_date", nullable = false)
+    @Column(name = "delivery_date")
     private Date deliveryDate;
 
     @Enumerated(EnumType.STRING)

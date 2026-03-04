@@ -34,7 +34,11 @@ public abstract class Customer {
 
     private String phone;
 
+    @OneToOne(mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private CustomerAddress customerAddresses;
+
     @OneToMany(mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
-
 }

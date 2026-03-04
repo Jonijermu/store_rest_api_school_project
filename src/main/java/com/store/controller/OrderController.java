@@ -22,7 +22,7 @@ public class OrderController {
     public ResponseEntity<CustomerOrdersDTO> getAllCustomerOrders(
             @PathVariable int customerId
     ) {
-        CustomerOrdersDTO customerOrdersDTO = orderService.getAllCustomerOrders(customerId);
+        CustomerOrdersDTO customerOrdersDTO = orderService.getAllCustomerOrdersByCustomerId(customerId);
         return ResponseEntity.ok(customerOrdersDTO);
 
     }
@@ -35,7 +35,7 @@ public class OrderController {
         return ResponseEntity.ok(orderDTO);
     }
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<CustomerOrdersDTO> getOrderProducts(
 
     ) {

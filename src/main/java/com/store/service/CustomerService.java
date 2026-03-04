@@ -1,9 +1,8 @@
 package com.store.service;
 
-import com.store.dto.customer.CompanyCustomerDTO;
+
 import com.store.dto.customer.CreateCustomerRequest;
 import com.store.dto.customer.CustomerDTO;
-import com.store.dto.customer.PrivateCustomerDTO;
 import com.store.entity.CompanyCustomer;
 import com.store.entity.Customer;
 import com.store.entity.CustomerAddress;
@@ -19,16 +18,14 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-    private final CustomerAddressRepository customerAddressRepository;
 
 
     public CustomerService(
             CustomerRepository customerRepository,
-            CustomerMapper customerMapper,
-            CustomerAddressRepository customerAddressRepository) {
+            CustomerMapper customerMapper
+    ) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
-        this.customerAddressRepository = customerAddressRepository;
     }
 
     public CustomerDTO findCustomerById(int customerId) {
@@ -50,8 +47,8 @@ public class CustomerService {
 
         if (request.getType().equals(CustomerType.PRIVATE)) {
             PrivateCustomer customer = new PrivateCustomer();
-            saveCustomerAddress(customer, request);
             setCommonFields(customer, request);
+            saveCustomerAddress(customer, request);
             return customerMapper.toPrivateCustomerDto(
                     customerRepository.save(customer)
             );
@@ -84,6 +81,7 @@ public class CustomerService {
                 .orElseThrow(() -> new RuntimeException("Customer Not Found"));
 
         setCommonFields(customer, request);
+        saveCustomerAddress(customer, request);
 
         if (customer instanceof PrivateCustomer privateCustomer) {
             return customerMapper.toPrivateCustomerDto(
@@ -118,6 +116,6 @@ public class CustomerService {
         address.setStreetAddress(request.getStreetAddress());
         address.setCountry(request.getCountry());
         address.setPostalCode(request.getPostalCode());
-        customerAddressRepository.save(address);
+        customer.setCustomerAddresses(address);
     }
 }

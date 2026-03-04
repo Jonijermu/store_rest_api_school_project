@@ -13,6 +13,7 @@ import com.store.repository.OrderRepository;
 import com.store.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ public class OrderService {
         this.customerAddressRepository = customerAddressRepository;
     }
 
-    public CustomerOrdersDTO getAllCustomerOrders(int customerId) {
+    public CustomerOrdersDTO getAllCustomerOrdersByCustomerId(int customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow();
 
@@ -51,9 +52,12 @@ public class OrderService {
         throw new RuntimeException("Failed to load customer orders");
     }
 
+    //todo
     public void getOrderProductsByOrderId() {
     }
 
+    //todo fix teh stock when order is successfull
+    // todo default shipping date to change later
     public OrderDTO createOrder(CreateOrderRequest request) {
         Customer customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
 
@@ -71,6 +75,7 @@ public class OrderService {
         Order order = new Order();
         order.setCustomer(customer);
         order.setShippingAddress(address);
+        order.setOrderDate(new Date());
         List<OrderItem> orderItems = request.getProducts().stream()
                         .map(req -> createOrderItems(
                                 productMap.get(req.getProductId()),
@@ -88,7 +93,11 @@ public class OrderService {
             Integer quantity,
             Order order
     ) {
+        OrderItemId id = new OrderItemId();
+        id.setOrderId(order.getId());
+        id.setProductId(product.getId());
         return OrderItem.builder()
+                .id(id)
                 .order(order)
                 .product(product)
                 .quantity(quantity)

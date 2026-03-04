@@ -14,13 +14,12 @@ import java.util.List;
 @Entity
 @Table(name = "customeraddresses")
 public class CustomerAddress {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
-
-    @OneToOne(optional = false)
+    @OneToOne()
     private Customer customer;
 
     @Column(name = "street_address", nullable = false)
