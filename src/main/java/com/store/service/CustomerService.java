@@ -6,8 +6,10 @@ import com.store.dto.customer.CustomerDTO;
 import com.store.dto.customer.PrivateCustomerDTO;
 import com.store.entity.CompanyCustomer;
 import com.store.entity.Customer;
+import com.store.entity.CustomerAddress;
 import com.store.entity.PrivateCustomer;
 import com.store.mapper.CustomerMapper;
+import com.store.repository.CustomerAddressRepository;
 import com.store.repository.CustomerRepository;
 import com.store.utils.enums.CustomerType;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,16 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final CustomerAddressRepository customerAddressRepository;
 
 
     public CustomerService(
             CustomerRepository customerRepository,
-            CustomerMapper customerMapper
-    ) {
+            CustomerMapper customerMapper,
+            CustomerAddressRepository customerAddressRepository) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
+        this.customerAddressRepository = customerAddressRepository;
     }
 
     public CustomerDTO findCustomerById(int customerId) {
@@ -46,6 +50,7 @@ public class CustomerService {
 
         if (request.getType().equals(CustomerType.PRIVATE)) {
             PrivateCustomer customer = new PrivateCustomer();
+            saveCustomerAddress(customer, request);
             setCommonFields(customer, request);
             return customerMapper.toPrivateCustomerDto(
                     customerRepository.save(customer)
@@ -54,6 +59,7 @@ public class CustomerService {
 
         if (request.getType().equals(CustomerType.COMPANY)) {
             CompanyCustomer customer = new CompanyCustomer();
+            saveCustomerAddress(customer, request);
             setCommonFields(customer, request);
             customer.setCompanyName(request.getCompanyName());
             customer.setBillingEmail(request.getBillingEmail()
@@ -103,5 +109,15 @@ public class CustomerService {
         customer.setLastName(request.getLastName());
         customer.setEmail(request.getEmail());
         customer.setPhone(request.getPhone());
+    }
+
+    private void saveCustomerAddress(Customer customer, CreateCustomerRequest request) {
+        CustomerAddress address = new CustomerAddress();
+        address.setCustomer(customer);
+        address.setCity(request.getCity());
+        address.setStreetAddress(request.getStreetAddress());
+        address.setCountry(request.getCountry());
+        address.setPostalCode(request.getPostalCode());
+        customerAddressRepository.save(address);
     }
 }

@@ -17,4 +17,9 @@ public class CreateCustomerRequest {
     private String phone;
     private String companyName;
     private String billingEmail;
+
+    private String streetAddress;
+    private String postalCode;
+    private String city;
+    private String country;
 }
