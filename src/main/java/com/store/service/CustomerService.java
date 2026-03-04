@@ -39,7 +39,7 @@ public class CustomerService {
             return customerMapper.toPrivateCustomerDto(privateCustomer);
         }
 
-        if (customer instanceof  CompanyCustomer companyCustomer) {
+        if (customer instanceof CompanyCustomer companyCustomer) {
             return customerMapper.toCompanyCustomerDto(companyCustomer);
         }
         throw new IllegalStateException("Could not find customer");

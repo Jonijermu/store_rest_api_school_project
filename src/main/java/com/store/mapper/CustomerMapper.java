@@ -23,16 +23,16 @@ public class CustomerMapper {
     }
 
     public CompanyCustomerDTO toCompanyCustomerDto(
-            CompanyCustomer companyCustomer
+            CompanyCustomer customer
     ) {
         return CompanyCustomerDTO.builder()
-                .id(companyCustomer.getId())
-                .firstName(companyCustomer.getFirstName())
-                .lastName(companyCustomer.getLastName())
-                .email(companyCustomer.getEmail())
-                .phone(companyCustomer.getPhone())
-                .company(companyCustomer.getCompanyName())
-                .billingEmail(companyCustomer.getBillingEmail())
+                .id(customer.getId())
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .email(customer.getEmail())
+                .phone(customer.getPhone())
+                .company(customer.getCompanyName())
+                .billingEmail(customer.getBillingEmail())
                 .build();
     }
 }
