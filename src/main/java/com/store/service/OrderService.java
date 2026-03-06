@@ -55,7 +55,7 @@ public class OrderService {
     public void getOrderProductsByOrderId() {
     }
 
-    //todo fix teh stock when order is successfull
+    //todo fix the stock when order is successfull
     // todo default shipping date to change later
     public OrderDTO createOrder(CreateOrderRequest request) {
         Customer customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
