@@ -11,18 +11,18 @@ import java.util.stream.Collectors;
 @Component
 public class ProductMapper {
 
-    public ProductDTO toDto(Product product) {
+    public ProductDTO toProductDto(Product product) {
         return ProductDTO.builder()
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .categories(product.getCategories().stream()
-                        .map(this::toDto)
+                        .map(this::toProductCategoriesDto)
                         .collect(Collectors.toList()))
                 .build();
     }
 
-    private ProductCategoriesDTO toDto(ProductCategory productCategory) {
+    private ProductCategoriesDTO toProductCategoriesDto(ProductCategory productCategory) {
         return ProductCategoriesDTO.builder()
                 .name(productCategory.getName())
                 .description(productCategory.getDescription())

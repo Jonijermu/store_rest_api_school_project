@@ -7,8 +7,8 @@ import com.store.dto.order.OrderProductRequest;
 import com.store.entity.*;
 import com.store.mapper.OrderMapper;
 import com.store.repository.CustomerAddressRepository;
-import com.store.repository.CustomerRepository;
-import com.store.repository.OrderRepository;
+import com.store.repository.CustomerRepository.CustomerRepository;
+import com.store.repository.orderRepository.OrderRepository;
 import com.store.repository.productRepository.ProductRepository;
 import org.springframework.stereotype.Service;
 

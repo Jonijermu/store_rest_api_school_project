@@ -1,5 +1,6 @@
 package com.store.controller;
 
+import com.store.dto.product.CreateProductRequest;
 import com.store.dto.product.ProductDTO;
 import com.store.service.ProductService;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -33,6 +34,14 @@ public class ProductController {
     ) {
         List<ProductDTO> products = productService.getTopProducts(productNumber);
         return ResponseEntity.ok(products);
+    }
+
+    @PostMapping()
+    public ResponseEntity<ProductDTO> addProduct(
+            @RequestBody CreateProductRequest request
+    ) {
+        ProductDTO productDTO = productService.createProduct(request);
+        return ResponseEntity.ok(productDTO);
     }
 
     @PatchMapping()

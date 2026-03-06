@@ -1,10 +1,14 @@
 package com.store.service;
 
+import com.store.dto.product.CreateProductRequest;
 import com.store.dto.product.ProductDTO;
 import com.store.entity.Product;
+import com.store.entity.ProductCategory;
+import com.store.entity.Supplier;
 import com.store.mapper.ProductMapper;
+import com.store.repository.CategoryRepository;
+import com.store.repository.SupplierRepository;
 import com.store.repository.productRepository.ProductRepository;
-import com.store.repository.productRepository.ProductRepositoryImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -16,37 +20,68 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final ProductRepositoryImpl productRepositoryImpl;
+    private final SupplierRepository supplierRepository;
+    private final CategoryRepository categoryRepository;
 
 
     public ProductService(
             ProductRepository productRepository,
-            ProductMapper productMapper, ProductRepositoryImpl productRepositoryImpl) {
+            ProductMapper productMapper,
+            SupplierRepository supplierRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
-        this.productRepositoryImpl = productRepositoryImpl;
+        this.supplierRepository = supplierRepository;
+        this.categoryRepository = categoryRepository;
     }
+
 
     public ProductDTO getProductById(int productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow();
 
-        return productMapper.toDto(product);
+        return productMapper.toProductDto(product);
     }
+
 
     public List<ProductDTO> getTopProducts(Integer productNumber) {
         List<Product> products = productRepository.findTopProducts(productNumber);
         List<ProductDTO> productsDto = new ArrayList<>();
         for (Product p : products) {
-            ProductDTO pDto = productMapper.toDto(p);
+            ProductDTO pDto = productMapper.toProductDto(p);
             productsDto.add(pDto);
         }
         return productsDto;
     }
 
+
     @Transactional
     public void increaseProductPrices(double percentageIncrease) {
         productRepository.increaseAllPricesOfProducts(percentageIncrease);
 
+    }
+
+
+    public ProductDTO createProduct(CreateProductRequest request) {
+        Product product = setProductInfo(request);
+        Supplier supplier = supplierRepository.findSupplierByName(request.getSupplierName());
+        List<ProductCategory> categories = categoryRepository.findProductCategoriesNameIn(request.getCategoryNames());
+        product.setSupplier(supplier);
+        product.setCategories(categories);
+        return productMapper.toProductDto(productRepository.save(product));
+    }
+
+    public ProductDTO updateProductInfo() {
+
+        return null;
+    }
+
+
+    private Product setProductInfo(CreateProductRequest request) {
+        return Product.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .stockQuantity(request.getStockQuantity())
+                .build();
     }
 }

@@ -8,8 +8,7 @@ import com.store.entity.Customer;
 import com.store.entity.CustomerAddress;
 import com.store.entity.PrivateCustomer;
 import com.store.mapper.CustomerMapper;
-import com.store.repository.CustomerAddressRepository;
-import com.store.repository.CustomerRepository;
+import com.store.repository.CustomerRepository.CustomerRepository;
 import com.store.utils.enums.CustomerType;
 import org.springframework.stereotype.Service;
 
