@@ -10,6 +10,7 @@ import com.store.repository.CustomerAddressRepository;
 import com.store.repository.CustomerRepository.CustomerRepository;
 import com.store.repository.orderRepository.OrderRepository;
 import com.store.repository.productRepository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -55,8 +56,9 @@ public class OrderService {
     public void getOrderProductsByOrderId() {
     }
 
-    //todo fix the stock when order is successfull
+    //todo: fix the stock when order is successfull
     // todo default shipping date to change later
+    @Transactional
     public OrderDTO createOrder(CreateOrderRequest request) {
         Customer customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
 

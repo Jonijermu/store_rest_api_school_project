@@ -1,5 +1,6 @@
 package com.store.entity;
 
+import com.store.entityListener.CustomerListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @SuperBuilder
+@EntityListeners(CustomerListener.class)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "customers")
 public abstract class Customer {

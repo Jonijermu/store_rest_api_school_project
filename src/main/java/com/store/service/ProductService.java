@@ -64,15 +64,29 @@ public class ProductService {
     public ProductDTO createProduct(CreateProductRequest request) {
         Product product = setProductInfo(request);
         Supplier supplier = supplierRepository.findSupplierByName(request.getSupplierName());
-        List<ProductCategory> categories = categoryRepository.findProductCategoriesNameIn(request.getCategoryNames());
+        List<ProductCategory> categories = categoryRepository.findByNameIn(request.getCategoryNames());
         product.setSupplier(supplier);
         product.setCategories(categories);
         return productMapper.toProductDto(productRepository.save(product));
     }
 
-    public ProductDTO updateProductInfo() {
+    // todo: to be implemented
+    public ProductDTO updateProductInfo(Integer productId, CreateProductRequest request) {
+        Product product = productRepository.findById(productId).orElseThrow();
+
+        if (product.isLocked()) {
+            throw new IllegalStateException("Product is locked.");
+        }
 
         return null;
+    }
+
+    public ProductDTO toggleLock(Integer productId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        product.setLocked(!product.isLocked());
+        return productMapper.toProductDto(productRepository.save(product));
+
+
     }
 
 

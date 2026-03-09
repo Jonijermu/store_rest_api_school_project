@@ -111,10 +111,10 @@ public class CustomerService {
     private void saveCustomerAddress(Customer customer, CreateCustomerRequest request) {
         CustomerAddress address = new CustomerAddress();
         address.setCustomer(customer);
-        address.setCity(request.getCity());
-        address.setStreetAddress(request.getStreetAddress());
-        address.setCountry(request.getCountry());
-        address.setPostalCode(request.getPostalCode());
+        address.setCity(request.getAddress().getCity());
+        address.setStreetAddress(request.getAddress().getStreetAddress());
+        address.setCountry(request.getAddress().getCountry());
+        address.setPostalCode(request.getAddress().getPostalCode());
         customer.setCustomerAddresses(address);
     }
 }

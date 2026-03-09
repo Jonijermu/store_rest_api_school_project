@@ -1,5 +1,6 @@
 package com.store.entity;
 
+import com.store.converter.LockedBooleanConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -33,6 +34,14 @@ public class Product {
     @ColumnDefault("0")
     @Column(name = "stock_quantity", nullable = false)
     private int stockQuantity;
+
+    @Version
+    @Column(name = "version")
+    private int version;
+
+    @Column(name = "locked", nullable = false, length = 1)
+    @Convert(converter = LockedBooleanConverter.class)
+    private boolean locked = false;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

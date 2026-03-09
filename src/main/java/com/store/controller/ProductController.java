@@ -2,6 +2,7 @@ package com.store.controller;
 
 import com.store.dto.product.CreateProductRequest;
 import com.store.dto.product.ProductDTO;
+import com.store.entity.Product;
 import com.store.service.ProductService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,22 @@ public class ProductController {
             @RequestBody CreateProductRequest request
     ) {
         ProductDTO productDTO = productService.createProduct(request);
+        return ResponseEntity.ok(productDTO);
+    }
+
+    @PatchMapping("/{productId}/toggle-lock")
+    public ResponseEntity<ProductDTO> toggleLock(
+            @PathVariable Integer productId
+    ) {
+        return ResponseEntity.ok(productService.toggleLock(productId));
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductDTO> updateProduct(
+            @PathVariable Integer productId,
+            @RequestBody CreateProductRequest request
+    ) {
+        ProductDTO productDTO = productService.updateProductInfo(productId, request);
         return ResponseEntity.ok(productDTO);
     }
 
