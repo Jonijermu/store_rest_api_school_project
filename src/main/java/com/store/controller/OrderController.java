@@ -3,10 +3,14 @@ package com.store.controller;
 import com.store.dto.order.CreateOrderRequest;
 import com.store.dto.order.CustomerOrdersDTO;
 import com.store.dto.order.OrderDTO;
+import com.store.dto.orderitem.OrderItemDTO;
+import com.store.dto.product.ProductDTO;
 import com.store.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/orders")
@@ -35,12 +39,12 @@ public class OrderController {
         return ResponseEntity.ok(orderDTO);
     }
 
-    @GetMapping()
-    public ResponseEntity<CustomerOrdersDTO> getOrderProducts(
-
+    @GetMapping("/items/{orderId}")
+    public ResponseEntity<List<OrderItemDTO>> getOrderItems(
+            @PathVariable Integer orderId
     ) {
-        orderService.getOrderProductsByOrderId();
-        return ResponseEntity.ok(null);
+        List<OrderItemDTO> items = orderService.getOrderItemsByOrderId(orderId);
+        return ResponseEntity.ok(items);
 
     }
 }

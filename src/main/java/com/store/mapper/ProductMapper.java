@@ -6,6 +6,7 @@ import com.store.entity.Product;
 import com.store.entity.ProductCategory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,6 +21,12 @@ public class ProductMapper {
                         .map(this::toProductCategoriesDto)
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public List<ProductDTO> toProductListDto(List<Product> products) {
+        return products.stream()
+                .map(this::toProductDto)
+                .toList();
     }
 
     private ProductCategoriesDTO toProductCategoriesDto(ProductCategory productCategory) {

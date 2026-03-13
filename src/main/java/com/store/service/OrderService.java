@@ -4,8 +4,12 @@ import com.store.dto.order.CreateOrderRequest;
 import com.store.dto.order.CustomerOrdersDTO;
 import com.store.dto.order.OrderDTO;
 import com.store.dto.order.OrderProductRequest;
+import com.store.dto.orderitem.OrderItemDTO;
+import com.store.dto.product.ProductDTO;
 import com.store.entity.*;
+import com.store.mapper.OrderItemMapper;
 import com.store.mapper.OrderMapper;
+import com.store.mapper.ProductMapper;
 import com.store.repository.CustomerAddressRepository;
 import com.store.repository.CustomerRepository.CustomerRepository;
 import com.store.repository.orderRepository.OrderRepository;
@@ -26,13 +30,17 @@ public class OrderService {
     private final OrderMapper ordersMapper;
     private final ProductRepository productRepository;
     private final CustomerAddressRepository customerAddressRepository;
+    private final ProductMapper productMapper;
+    private final OrderItemMapper orderItemMapper;
 
-    public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository, OrderMapper ordersMapper, ProductRepository productRepository, CustomerAddressRepository customerAddressRepository) {
+    public OrderService(OrderRepository orderRepository, CustomerRepository customerRepository, OrderMapper ordersMapper, ProductRepository productRepository, CustomerAddressRepository customerAddressRepository, ProductMapper productMapper, OrderItemMapper orderItemMapper) {
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
         this.ordersMapper = ordersMapper;
         this.productRepository = productRepository;
         this.customerAddressRepository = customerAddressRepository;
+        this.productMapper = productMapper;
+        this.orderItemMapper = orderItemMapper;
     }
 
     public CustomerOrdersDTO getAllCustomerOrdersByCustomerId(int customerId) {
@@ -53,7 +61,11 @@ public class OrderService {
     }
 
     //todo
-    public void getOrderProductsByOrderId() {
+    public List<OrderItemDTO> getOrderItemsByOrderId(Integer orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        return orderItemMapper.toOrderItemDtoList(order.getOrderItems());
     }
 
     //todo: fix the stock when order is successfull
