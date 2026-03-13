@@ -1,5 +1,7 @@
 package com.store.entity;
 
+import com.store.entityListener.CustomerListener;
+import com.store.entityListener.OrderListener;
 import com.store.utils.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(OrderListener.class)
 @Table(name = "orders")
 public class Order {
 

@@ -1,8 +1,7 @@
 package com.store.entityListener;
 
 import com.store.entity.Customer;
-import jakarta.persistence.PostPersist;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
 
 public class CustomerListener  {
 
@@ -14,6 +13,26 @@ public class CustomerListener  {
     @PostPersist
     public void afterPersist(Customer customer) {
         System.out.println("@PostPersist: Customer saved, id="+ customer.getId());
+    }
+
+    @PreUpdate
+    public void beforeUpdate(Customer customer) {
+        System.out.println("@PrePersist: Customer `"+ customer.getId() + "` is being updated");
+    }
+
+    @PostUpdate
+    public void afterUpdate(Customer customer) {
+        System.out.println("@PrePersist: Customer `"+ customer.getFirstName() + "` is updated");
+    }
+
+    @PreRemove
+    public void beforeRemove(Customer customer) {
+        System.out.println("@PrePersist: Customer `"+ customer.getId() + "` is being deleted");
+    }
+
+    @PostRemove
+    public void afterRemove(Customer customer) {
+        System.out.println("@PrePersist: Customer `"+ customer.getFirstName() + "` is deleted");
     }
 
 

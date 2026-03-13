@@ -1,6 +1,8 @@
 package com.store.entity;
 
 
+import com.store.entityListener.CustomerAddressListener;
+import com.store.entityListener.CustomerListener;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@EntityListeners(CustomerAddressListener.class)
 @Table(name = "customeraddresses")
 public class CustomerAddress {
 

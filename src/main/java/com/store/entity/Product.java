@@ -1,6 +1,8 @@
 package com.store.entity;
 
 import com.store.converter.LockedBooleanConverter;
+import com.store.entityListener.OrderListener;
+import com.store.entityListener.ProductListener;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -15,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@EntityListeners(ProductListener.class)
 @Table(name = "products")
 public class Product {
 
