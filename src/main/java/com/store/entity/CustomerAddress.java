@@ -40,5 +40,4 @@ public class CustomerAddress {
     @OneToMany(mappedBy = "shippingAddress")
     private List<Order> orders = new ArrayList<>();
 
-
 }

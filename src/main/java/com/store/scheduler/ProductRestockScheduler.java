@@ -14,8 +14,9 @@ import java.util.List;
 public class ProductRestockScheduler {
 
     private final ProductRepository productRepository;
+    private final int TIMER = 60000 * 10;
 
-    @Scheduled(fixedRate = 60000 * 10)  //10 minutes
+    @Scheduled(fixedRate = TIMER, initialDelay = TIMER )  //10 minutes
     @Transactional
     public void restockProducts() {
 
