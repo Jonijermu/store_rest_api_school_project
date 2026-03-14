@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>, ProductRepositoryCustom {
 
@@ -15,5 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Prod
     @Modifying
     @Query("UPDATE Product p SET p.price = p.price * (1 + :increase / 100)")
     void increaseAllPricesOfProducts(@Param("increase")double percentageIncrease);
+
+    List<Product> findByStockQuantityLessThan(int quantity);
 
 }
