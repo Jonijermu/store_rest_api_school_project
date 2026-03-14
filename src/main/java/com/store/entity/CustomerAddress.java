@@ -22,7 +22,8 @@ public class CustomerAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne()
+    @OneToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @Column(name = "street_address", nullable = false)

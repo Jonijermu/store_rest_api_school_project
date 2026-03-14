@@ -17,7 +17,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<Customer> deleteInactiveCustomers(LocalDateTime twoYearsAgo) {
+    public List<Customer> deleteInactiveCustomers(LocalDateTime years) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Customer> cq = cb.createQuery(Customer.class);
         Root<Customer> customer = cq.from(Customer.class);
@@ -26,9 +26,8 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
         cq.select(customer)
                 .where(cb.or(
                         cb.isNull(orders.get("orderDate")),
-                        cb.lessThan(orders.get("orderDate"), twoYearsAgo)
-
-                ))
+                        cb.lessThan(orders.get("orderDate"), years))
+                )
                 .distinct(true);
 
         return entityManager.createQuery(cq).getResultList();

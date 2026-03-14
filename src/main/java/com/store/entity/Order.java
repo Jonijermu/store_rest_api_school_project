@@ -34,8 +34,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.NEW;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = true)
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)

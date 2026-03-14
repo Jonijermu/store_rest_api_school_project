@@ -36,9 +36,9 @@ public abstract class Customer {
 
     private String phone;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private CustomerAddress customerAddresses;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 }

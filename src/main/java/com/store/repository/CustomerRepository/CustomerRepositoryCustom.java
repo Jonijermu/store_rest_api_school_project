@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CustomerRepositoryCustom {
 
-    List<Customer> deleteInactiveCustomers(LocalDateTime twoYearsAgo);
+    List<Customer> deleteInactiveCustomers(LocalDateTime years);
 
 }
