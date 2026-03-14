@@ -14,6 +14,7 @@ import com.store.repository.CustomerAddressRepository;
 import com.store.repository.CustomerRepository.CustomerRepository;
 import com.store.repository.orderRepository.OrderRepository;
 import com.store.repository.productRepository.ProductRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class OrderService {
         this.orderItemMapper = orderItemMapper;
     }
 
+
     public CustomerOrdersDTO getAllCustomerOrdersByCustomerId(int customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow();
@@ -60,6 +62,7 @@ public class OrderService {
         throw new RuntimeException("Failed to load customer orders");
     }
 
+
     //todo
     public List<OrderItemDTO> getOrderItemsByOrderId(Integer orderId) {
         Order order = orderRepository.findById(orderId)
@@ -67,6 +70,7 @@ public class OrderService {
 
         return orderItemMapper.toOrderItemDtoList(order.getOrderItems());
     }
+
 
     //todo: fix the stock when order is successfull
     // todo default shipping date to change later
@@ -85,27 +89,28 @@ public class OrderService {
         Map<Integer, Product> productMap = products.stream()
                 .collect(Collectors.toMap(Product::getId, p -> p));
 
-        Order order = new Order();
-        order.setCustomer(customer);
-        order.setShippingAddress(address);
-        order.setOrderDate(new Date());
-        List<OrderItem> orderItems = request.getProducts().stream()
-                        .map(req -> createOrderItems(
-                                productMap.get(req.getProductId()),
-                                req.getQuantity(), order
+        Order order = createOrderEntity(customer, address);
 
-                        )).toList();
+        List<OrderItem> orderItems = request.getProducts().stream()
+                .map(req -> createOrderItems(
+                        productMap.get(req.getProductId()),
+                        req.getQuantity(), order
+
+                )).toList();
 
         order.setOrderItems(orderItems);
         orderRepository.save(order);
         return ordersMapper.toOrderDto(order);
     }
 
+
     private OrderItem createOrderItems(
             Product product,
             Integer quantity,
             Order order
     ) {
+        int orderQuantity = checkProductAvailability(product, quantity);
+        stockReduceFromOrder(product, orderQuantity);
         OrderItemId id = new OrderItemId();
         id.setOrderId(order.getId());
         id.setProductId(product.getId());
@@ -113,9 +118,38 @@ public class OrderService {
                 .id(id)
                 .order(order)
                 .product(product)
-                .quantity(quantity)
+                .quantity(orderQuantity)
                 .unitPrice(product.getPrice())
                 .build();
 
+    }
+
+
+    private void stockReduceFromOrder(Product product, int orderQuantity) {
+        product.setStockQuantity(product.getStockQuantity() - orderQuantity);
+    }
+
+
+    private Order createOrderEntity(Customer customer, CustomerAddress address) {
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setShippingAddress(address);
+        order.setOrderDate(new Date());
+        return order;
+    }
+
+
+    private Integer checkProductAvailability(Product product, Integer orderQuantity) {
+        productRepository.findById(product.getId())
+                .orElseThrow(() -> new RuntimeException("Product with id: " + product.getId() + " not found"));
+        if (product.isLocked()) {
+            throw new RuntimeException("Product with id: " + product.getId() + " is locked");
+        }
+        orderQuantity = Math.min(orderQuantity, product.getStockQuantity());
+
+        if (orderQuantity == 0) {
+            throw new RuntimeException("Can't order product with id: "+product.getId() +" because stock is 0 ");
+        }
+        return orderQuantity;
     }
 }
