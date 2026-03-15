@@ -1,6 +1,6 @@
 # Tietokantaratkaisut TX00EY31-3007 Project
 
-Online store Spring Boot REST API from the customer point of view. Project was part of the Tietokantaratkaisut course. My plan for this project was to create backend that creates all teh necessary features for teh backend like schedulers and indexes. 
+Online store Spring Boot REST API from the customer point of view. Project was part of the Tietokantaratkaisut course. My plan for this project was to create backend that creates all teh necessary features for the backend like schedulers and indexes. 
 
 ---
 
