@@ -13,6 +13,12 @@ Online store Spring Boot REST API from the customer point of view. Project was p
 
 ---
 
+## API Endpoints
+
+See [API Documentation](endpoints.md) for all endpoints with request and response examples.
+
+---
+
 ## Features
 
 ### Indexing
@@ -71,8 +77,4 @@ The app uses the course database dump [schema_populated_dump.sql](https://metrop
 
 3. Start the application. On first run, `data.sql` will execute after JPA applies the necessary schema changes.
 
----
 
-## API Endpoints
-
-See [API Documentation](API_README.md) for all endpoints with request and response examples.
