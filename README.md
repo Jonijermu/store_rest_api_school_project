@@ -1,6 +1,6 @@
 # Tietokantaratkaisut TX00EY31-3007 Project
 
-Online store Spring Boot REST API from the customer point of view. Project was part of the Tietokantaratkaisut course. My plan for this project was to create backend that creates all teh necessary features for the backend like schedulers and indexes. 
+Online store Spring Boot REST API from the customer point of view. Project was part of the Tietokantaratkaisut course. My goal was to let JPA handle as much as possible — indexes, schedulers, locking, and listeners — rather than managing these manually in the database.
 
 ---
 
@@ -29,14 +29,13 @@ Indexes are created in the entity classes for faster querying.
 `Customer` is used as an abstract class with two subclasses: `CompanyCustomer` and `PrivateCustomer`.
 - Entities [Customer](src/main/java/com/store/entity/Customer.java), [PrivateCustomer](src/main/java/com/store/entity/PrivateCustomer.java), [CompanyCustomer](src/main/java/com/store/entity/CompanyCustomer.java)
 
-### Relations
-`OneToOne` relation between Customer and CustomerAddress
-
-`ManyToMany` relation between Product and ProductCategory
+### M-N and 1-1 Relations
+- `OneToOne` relation between Customer and CustomerAddress
+- `ManyToMany` relation between Product and ProductCategory
 
 ### Scheduler Events
 Two scheduled events are configured:
-- Timer is set to 10 minutes on both schedulers
+- Timer is set to 10 minutes on both schedulers. You can disable both schedulers by deleting the `@EnableScheduling` in the server starting class.
 - [CustomerDeleteScheduler](src/main/java/com/store/scheduler/CustomerDeleteScheduler.java) Deletes customers who have never placed an order, or who have not ordered anything in the past three years
 - [ProductRestockScheduler](src/main/java/com/store/scheduler/ProductRestockScheduler.java) Restocks all products with 0 stock back to 20
 
@@ -50,12 +49,12 @@ Pessimistic and optimistic locking are used for products. A converter is used fo
 
 ### Bulk Updates & Criteria Updates
 Bulk updates are used in entity repositories and criteria updates for large GET requests.
-- [Bulk update example](src/main/java/com/store/repository/productRepository/ProductRepository.java) to increase all product prices by giving percentage.
-- [Criteria update example](src/main/java/com/store/repository/productRepository/ProductRepositoryImpl.java) to get most ordered products
+- [Bulk update example](src/main/java/com/store/repository/productRepository/ProductRepository.java) to increase all product prices by the giving percentage.
+- [Criteria query example](src/main/java/com/store/repository/productRepository/ProductRepositoryImpl.java) to get most ordered products
 
 ### Entity Listeners
 Entity lifecycle callbacks for example `@PrePersist` and `@PostPersist` are used to trigger logic on entity creation.
-- [CustomerListener](src/main/java/com/store/entityListener/CustomerListener.java)
+- [Entity listeners](src/main/java/com/store/entityListener)
 
 ---
 
