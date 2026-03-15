@@ -57,6 +57,12 @@ Bulk updates are used in entity repositories and criteria updates for large GET 
 Entity lifecycle callbacks for example `@PrePersist` and `@PostPersist` are used to trigger logic on entity creation.
 - [Entity listeners](src/main/java/com/store/entityListener)
 
+
+### Security (DB-level)
+A dedicated database user is created to manage the store database securely. This user has full privileges on the store database, 
+allowing the application to perform all necessary operations without using root credentials.
+- [db user creation example](src/main/resources/dbUser.sql)
+
 ---
 
 ## Setup
