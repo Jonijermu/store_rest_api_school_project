@@ -10,7 +10,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "orderitems")
+@Table(name = "orderitems", indexes = {
+        @Index(name = "idx_order_id", columnList = "order_id"),
+        @Index(name = "idx_product_id", columnList = "product_id")
+})
 public class OrderItem {
 
     @EmbeddedId

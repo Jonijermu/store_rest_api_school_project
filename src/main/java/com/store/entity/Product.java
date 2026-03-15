@@ -17,7 +17,12 @@ import java.util.List;
 @Builder
 @Entity
 @EntityListeners(ProductListener.class)
-@Table(name = "products")
+@Table(name = "products", indexes = {
+        @Index(name = "idx_name", columnList = "name"),
+        @Index(name = "idx_price", columnList = "price"),
+        @Index(name = "idx_supplier_id", columnList = "supplier_id"),
+        @Index(name = "idx_locked", columnList = "locked")
+})
 public class Product {
 
     @Id

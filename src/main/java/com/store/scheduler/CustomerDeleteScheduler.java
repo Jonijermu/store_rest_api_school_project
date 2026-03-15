@@ -20,8 +20,6 @@ import java.util.List;
 public class CustomerDeleteScheduler {
 
     private final CustomerRepository customerRepository;
-    private final OrderRepository orderRepository;
-    private final CustomerAddressRepository customerAddressRepository;
     private final int TIMER = 60000 * 10;
 
     @Scheduled(fixedRate = TIMER, initialDelay = TIMER)

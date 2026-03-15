@@ -18,7 +18,10 @@ import java.util.List;
 @SuperBuilder
 @EntityListeners(CustomerListener.class)
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "customers")
+@Table(name = "customers", indexes = {
+        @Index(name = "idx_email", columnList = "email"),
+        @Index(name = "idx_last_name", columnList = "last_name")
+})
 public abstract class Customer {
 
     @Id

@@ -309,19 +309,34 @@ GET http://localhost:8080/api/products/top/3
     "name": "Nimble Snack 972",
     "description": "Beat among billion health state tax.",
     "price": 250.37,
-    "categories": []
+    "categories": [
+      {
+        "name": "Kirjat & toimisto",
+        "description": "Kirjat, paperitarvikkeet ja toimistotuotteet"
+      }
+    ]
   },
   {
     "name": "Mighty Mat 167",
     "description": "Sound you office memory various pick first.",
     "price": 394.05,
-    "categories": []
+    "categories": [
+      {
+        "name": "Kirjat & toimisto",
+        "description": "Kirjat, paperitarvikkeet ja toimistotuotteet"
+      }
+    ]
   },
   {
     "name": "Happy Plug 714",
     "description": "How doctor feel protect institution.",
     "price": 578.40,
-    "categories": []
+    "categories": [
+      {
+        "name": "Kirjat & toimisto",
+        "description": "Kirjat, paperitarvikkeet ja toimistotuotteet"
+      }
+    ]
   }
 ]
 ```

@@ -25,3 +25,23 @@ UPDATE products p SET locked = 'n';
 
 -- Update the versioning to 0 of all products
 UPDATE products p SET VERSION = 0 WHERE p.version is Null;
+
+-- Randomize the product categories
+INSERT INTO product_category (product_id, category_id)
+SELECT p.id,
+       (SELECT id FROM productcategories ORDER BY RAND() LIMIT 1)
+FROM products p
+WHERE RAND() < 0.7;
+
+INSERT INTO product_category (product_id, category_id)
+SELECT p.id,
+       (SELECT id FROM productcategories ORDER BY RAND() LIMIT 1)
+FROM products p
+WHERE p.id NOT IN (SELECT product_id FROM product_category);
+
+INSERT INTO product_category (product_id, category_id)
+SELECT pc.product_id,
+       (SELECT id FROM productcategories ORDER BY RAND() LIMIT 1)
+FROM product_category pc
+GROUP BY pc.product_id
+HAVING RAND() >= 0.7;

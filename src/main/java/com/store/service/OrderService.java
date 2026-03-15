@@ -72,7 +72,7 @@ public class OrderService {
     }
 
 
-    //todo: fix the stock when order is successfull
+
     // todo default shipping date to change later
     @Transactional
     public OrderDTO createOrder(CreateOrderRequest request) {

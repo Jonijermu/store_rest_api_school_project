@@ -17,7 +17,12 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 @EntityListeners(OrderListener.class)
-@Table(name = "orders")
+@Table(name = "orders", indexes = {
+        @Index(name = "idx_customer_id", columnList = "customer_id"),
+        @Index(name = "idx_shipping_address_id", columnList = "shipping_address_id"),
+        @Index(name = "idx_order_date", columnList = "order_date"),
+        @Index(name = "idx_status", columnList = "status")
+})
 public class Order {
 
     @Id
