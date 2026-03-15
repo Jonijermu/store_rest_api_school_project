@@ -14,17 +14,19 @@ Content-Type: application/json
   "phone": "123456789",
   "companyName": "nordea",
   "billingEmail": "prööt@hotmail.fi",
-  "streetAddress": "testitie 3",
-  "postalCode": "00440",
-  "city": "helsinki",
-  "country": "Finland"
+  "address": {
+    "streetAddress": "testitie 3",
+    "postalCode": "00440",
+    "city": "helsinki",
+    "country": "Finland"
+  }
 }
 
 ### Delete customer by id
 DELETE http://localhost:8080/api/customers/100002
 
 
-### Create a new customer
+### Update existing customer
 PUT http://localhost:8080/api/customers/100002
 Content-Type: application/json
 
@@ -36,8 +38,10 @@ Content-Type: application/json
   "phone": "123456789",
   "companyName": "nordea",
   "billingEmail": "nordea@hotmail.fi",
-  "streetAddress": "testitie 3",
-  "postalCode": "00440",
-  "city": "Vantaa",
-  "country": "Finland"
+  "address": {
+    "streetAddress": "testitie 3",
+    "postalCode": "00440",
+    "city": "Vantaa",
+    "country": "Finland"
+  }
 }

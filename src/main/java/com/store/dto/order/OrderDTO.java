@@ -18,6 +18,6 @@ public class OrderDTO {
     private Integer id;
     private Date orderDate;
     private Date deliveryDate;
-    private CustomerAddressDTO shippingAddress;
     private OrderStatus status;
+    private CustomerAddressDTO shippingAddress;
 }

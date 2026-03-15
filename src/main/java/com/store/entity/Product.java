@@ -1,7 +1,6 @@
 package com.store.entity;
 
 import com.store.converter.LockedBooleanConverter;
-import com.store.entityListener.OrderListener;
 import com.store.entityListener.ProductListener;
 import jakarta.persistence.*;
 import lombok.*;

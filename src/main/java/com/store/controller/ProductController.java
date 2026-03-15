@@ -61,9 +61,9 @@ public class ProductController {
         return ResponseEntity.ok(productDTO);
     }
 
-    @PatchMapping()
+    @PatchMapping("/price")
     public ResponseEntity<String> patchProductPrices(
-            @RequestBody double percentageIncrease
+            @RequestParam double percentageIncrease
     ) {
         productService.increaseProductPrices(percentageIncrease);
         return ResponseEntity.ok("Product prices increase" + percentageIncrease);

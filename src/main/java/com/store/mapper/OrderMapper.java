@@ -39,7 +39,7 @@ public class OrderMapper {
 
 
         return PrivateCustomerOrdersDTO.builder()
-                .privateCustomerDTO(privateCustomerDto)
+                .privateCustomer(privateCustomerDto)
                 .orders(orders.stream()
                         .map(this::toOrderDto)
                         .collect(Collectors.toList())
@@ -59,7 +59,7 @@ public class OrderMapper {
                 .build();
 
         return CompanyCustomerOrdersDTO.builder()
-                .companyCustomerDTO(companyCustomerDTO)
+                .companyCustomer(companyCustomerDTO)
                 .orders(orders.stream()
                         .map(this::toOrderDto)
                         .collect(Collectors.toList())

@@ -17,6 +17,6 @@ import java.util.List;
 public class CompanyCustomerOrdersDTO extends CustomerOrdersDTO{
 
     @JsonProperty("companyCustomer")
-    private CompanyCustomerDTO companyCustomerDTO;
+    private CompanyCustomerDTO companyCustomer;
     private List<OrderDTO> orders;
 }

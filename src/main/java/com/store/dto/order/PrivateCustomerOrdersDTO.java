@@ -16,6 +16,6 @@ import java.util.List;
 public class PrivateCustomerOrdersDTO extends CustomerOrdersDTO{
 
 
-    private PrivateCustomerDTO privateCustomerDTO;
+    private PrivateCustomerDTO privateCustomer;
     private List<OrderDTO> orders;
 }

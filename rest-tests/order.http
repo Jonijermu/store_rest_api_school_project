@@ -7,10 +7,12 @@ POST localhost:8080/api/orders
 Content-Type: application/json
 
 {
-  "customerId": 100001,
+  "customerId": 1,
   "products": [
     {"productId": 2, "quantity": 6},
     {"productId": 1, "quantity": 2}
   ]
-
 }
+
+###
+GET http://localhost:8080/api/orders/items/200001

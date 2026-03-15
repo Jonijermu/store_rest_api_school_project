@@ -14,8 +14,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, Prod
 
     Product findProductByName(String productName);
 
-    @Modifying
-    @Query("UPDATE Product p SET p.price = p.price * (1 + :increase / 100)")
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Product p " +
+            "SET p.price = p.price * (1 + :increase / 100)," +
+            " p.version = p.version + 1")
     void increaseAllPricesOfProducts(@Param("increase")double percentageIncrease);
 
     List<Product> findByStockQuantityLessThan(int quantity);

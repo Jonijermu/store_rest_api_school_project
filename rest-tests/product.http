@@ -1,0 +1,27 @@
+###
+GET http://localhost:8080/api/products/1
+
+###
+GET http://localhost:8080/api/products/top/3
+
+###
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "testProduct",
+  "description": "description for test product",
+  "price": 99.99,
+  "stockQuantity": 100,
+  "supplierName": "Polar Electronics Oy",
+  "categoryNames": [
+    "Elektroniikka"
+  ]
+}
+
+###
+PATCH http://localhost:8080/api/products/1/toggle-lock
+
+###
+PATCH http://localhost:8080/api/products/price?percentageIncrease=1
+
