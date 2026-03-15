@@ -1,6 +1,7 @@
 # Tietokantaratkaisut TX00EY31-3007 Project
 
-Online store Spring Boot REST API from the customer point of view. Project was part of the Tietokantaratkaisut course. My goal was to let JPA handle as much as possible — indexes, schedulers, locking, and listeners — rather than managing these manually in the database.
+Online store Spring Boot REST API from the customer point of view. Project was part of the Tietokantaratkaisut course. 
+The project is designed to leverage JPA features (indexes, schedulers, locking, entity listeners) instead of manually implementing them in the database.
 
 ---
 
@@ -35,12 +36,12 @@ Indexes are created in the entity classes for faster querying.
 
 ### Scheduler Events
 Two scheduled events are configured:
-- Timer is set to 10 minutes on both schedulers. You can disable both schedulers by deleting the `@EnableScheduling` in the server starting class.
+- Both schedulers run every 10 minutes. To disable them, remove `@EnableScheduling` from the main application class.
 - [CustomerDeleteScheduler](src/main/java/com/store/scheduler/CustomerDeleteScheduler.java) Deletes customers who have never placed an order, or who have not ordered anything in the past three years
 - [ProductRestockScheduler](src/main/java/com/store/scheduler/ProductRestockScheduler.java) Restocks all products with 0 stock back to 20
 
 ### Locking
-Pessimistic and optimistic locking are used for products. A converter is used for pessimistic locking and versioning for optimistic locking. Versioning is configured in the `Product` entity for the stock quantity.
+Pessimistic locking is implemented via a custom converter, and optimistic locking via versioning in the Product entity.
 - [Pessimistic locking](src/main/java/com/store/converter/LockedBooleanConverter.java), [Optimistic locking](src/main/java/com/store/entity/Product.java)
 
 ### Transactions
