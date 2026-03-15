@@ -1,11 +1,13 @@
 spring:
+  config:
+    import: optional:file:env.properties
   application:
     name: store_rest_api_school_project
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/store_test
-    username: root
-    password: root
+    url: jdbc:mariadb://localhost:3306/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
